@@ -56,6 +56,8 @@ public sealed class ZadaniaLinq
             .OrderBy(s => s.Nazwisko)
             .ThenBy(s => s.Imie)
             .Select(s => $"{s.NumerIndeksu} {s.Imie} {s.Nazwisko}");
+        
+        return sortedStudents;
     }
 
     /// <summary>
