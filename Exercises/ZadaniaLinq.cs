@@ -230,17 +230,15 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie12_ParyStudentPrzedmiot()
     {
-        var studentsWithSubjects = DaneUczelni.Zapisy
-            .Join(
-                DaneUczelni.Studenci,
-                z => z.StudentId,
-                s => s.Id,
-                (z, s) => new { Zapis = z, Student = s })
+        var studentsWithSubjects = DaneUczelni.Studenci
+            .SelectMany(
+                s => DaneUczelni.Zapisy.Where(z => z.StudentId == s.Id),
+                (s, z) => new { Student = s, Zapis = z })
             .Join(
                 DaneUczelni.Przedmioty,
-                zs => zs.Zapis.PrzedmiotId,
+                sz => sz.Zapis.PrzedmiotId,
                 p => p.Id,
-                (zs, p) => $"{zs.Student.Imie} {zs.Student.Nazwisko} {p.Nazwa}"
+                (sz, p) => $"{sz.Student.Imie} {sz.Student.Nazwisko} {p.Nazwa}"
             );
         
         return studentsWithSubjects;      
