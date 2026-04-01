@@ -310,7 +310,14 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie15_ProwadzacyILiczbaPrzedmiotow()
     {
-        throw Niezaimplementowano(nameof(Zadanie15_ProwadzacyILiczbaPrzedmiotow));
+        var lecturersWithSubjectsCounts = DaneUczelni.Prowadzacy
+            .GroupJoin(
+                DaneUczelni.Przedmioty,
+                pr => pr.Id,
+                ps => ps.ProwadzacyId,
+                (pr, ps) => $"{pr.Imie} {pr.Nazwisko} {ps.Count()}");
+        
+        return lecturersWithSubjectsCounts;      
     }
 
     /// <summary>
