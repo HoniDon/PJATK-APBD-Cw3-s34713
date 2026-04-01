@@ -258,7 +258,16 @@ public sealed class ZadaniaLinq
     /// </summary>
     public IEnumerable<string> Zadanie13_GrupowanieZapisowWedlugPrzedmiotu()
     {
-        throw Niezaimplementowano(nameof(Zadanie13_GrupowanieZapisowWedlugPrzedmiotu));
+        var groupedRecords = DaneUczelni.Zapisy
+            .Join(
+                DaneUczelni.Przedmioty, 
+                z => z.PrzedmiotId, 
+                p => p.Id, 
+                (_, p) => p.Nazwa)
+            .GroupBy(p => p)
+            .Select(g => $"{g.Key} {g.Count()}");
+        
+        return groupedRecords;
     }
 
     /// <summary>
